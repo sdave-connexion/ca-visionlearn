@@ -154,17 +154,3 @@ Ensure the following Python libraries are installed in your environment:
 - skimage
 
 ---
-
-
-### Dependencies
-
-Ensure the following Python libraries are installed in your environment:
-- cv2 (OpenCV)
-- numpy
-- PIL (from PIL import Image)
-- collections (specifically the Counter)
-- skimage.measure (specifically shannon_entropy)
-- sklearn.cluster (specifically KMeans)
-- matplotlib.pyplot
-- imutils
-- pprint
