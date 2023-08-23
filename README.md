@@ -58,20 +58,17 @@ This module provides the `ImageColorAnalyzer` class which facilitates the analys
 - **Background Color Detection**: Determines the background color either by selecting the most common color (if it represents more than 50% of the image) or by averaging the 10 most common colors.
 
 **Usage**:
-Ensure the module is either in your Python path or in the same directory as your script. Then, you can utilize the following code:
+Ensure the module is either in your Python path or in the same directory as your script. Then, you can utilize the following code to calculate average, dominant, and background colors
 
+**Starter code**:
 ```python
-#Simple Starter
-print("\n" + "*" * 50 + "\nstarter\n" + "*" * 50)
-
 # Initialize the color analyzer and display results
 analyzer = ImageColorAnalyzer(image_array)
 analyzer.display_results()
+```
+**Extended**:
 
-#Extended
-print("\n" + "*" * 50 + "\nExtended\n" + "*" * 50)
-
-"""
+```python
 # Display individual color analyses
 analyzer.display_results(['average_color'])
 
@@ -88,8 +85,6 @@ print(f"Dominant Color: {analyzer.get_dominant_color()}")
 
 # Background Color
 print(f"Background Color: {analyzer.get_background_color()}")
-
-"""
 
 ```
 
@@ -112,10 +107,8 @@ The `ImageMetrics` class offers a suite of functions to compute various metrics 
 **Usage**:
 First, import the `ImageMetrics` class. To initialize the class, you should pass an image array to it. The `calculate_metrics` method can compute all available metrics by default. However, you can specify the metrics you desire by passing them as a list:
 
+**Starter code**:
 ```python
-#Simple Starter
-print("\n" + "*" * 50 + "\nstarter\n" + "*" * 50)
-
 # Initialize the metrics analyzer and get all metrics
 analyzer = ImageMetrics(image_array)
 all_metrics = analyzer.calculate_metrics()
@@ -123,11 +116,9 @@ all_metrics = analyzer.calculate_metrics()
 # Print all metrics
 for metric_name, value in all_metrics.items():
     print(f"{metric_name}: {value}")
-
-#Extended
-print("\n" + "*" * 50 + "\nExtended\n" + "*" * 50)
-
-
+```
+**Extended**:
+```python
 # Get individual metrics
 contrast = analyzer.contrast()
 brightness = analyzer.brightness()
@@ -170,6 +161,7 @@ The `ProductColor` class is intricately designed to process images, mask human c
 **Usage**:
 To utilize the `ProductColor` class, start by importing it. Subsequently, you can create an instance by offering your image array in BGR format. After initializing, it's possible to retrieve the dominant product color and a flag indicating potential misclassification at the center of the image:
 
+**Starter code** :
 ```python
 # Create an instance of the ProductColor class
 analyzer = ProductColor(image_array)
@@ -204,6 +196,7 @@ This module is equipped with functionalities to extract and analyze the dominant
 **Usage**:
 Begin by importing the `skin_tone` class. Once done, you can create an instance by providing the image path. After that, the dominant RGB value of the skin tone can be obtained:
 
+**Starter code**
 ```python
 # Create an instance of the skin_detector class
 skin_detector = skin_tone(image_array)
