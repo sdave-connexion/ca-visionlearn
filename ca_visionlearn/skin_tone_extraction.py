@@ -92,7 +92,7 @@ class skin_tone:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img = img.reshape((img.shape[0] * img.shape[1]), 3)
         
-        estimator = KMeans(n_clusters=number_of_colors, random_state=0)
+        estimator = KMeans(n_clusters=number_of_colors, n_init='auto', random_state=0)
         estimator.fit(img)
 
         color_information = self.get_color_information(
@@ -118,29 +118,46 @@ class skin_tone:
             print()
 
     def display_results(self):
-        fig, ax = plt.subplots(3, 1, figsize=(10,8))
-        ax[0].imshow(cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB))
-        ax[0].set_title("Original Image")
-        ax[0].axis("off")
+        fig, ax = plt.subplots(2, 3, figsize=(15,8))
 
+        # Original Image
+        ax[0, 0].imshow(cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB))
+        ax[0, 0].set_title("Original Image")
+        ax[0, 0].axis("off")
+
+        # Thresholded Image
         skin = self.extract_skin(self.image)
-        ax[1].imshow(cv2.cvtColor(skin, cv2.COLOR_BGR2RGB))
-        ax[1].set_title("Thresholded Image")
-        ax[1].axis("off")
+        ax[0, 1].imshow(cv2.cvtColor(skin, cv2.COLOR_BGR2RGB))
+        ax[0, 1].set_title("Thresholded Image")
+        ax[0, 1].axis("off")
 
+        # Dominant Skin Tone
         dominant_colors = self.extract_dominant_color(skin, has_thresholding=True)
+        dominant_color = max(dominant_colors, key=lambda x: x["color_percentage"])
+        formatted_rgb = tuple(round(val, 1) for val in dominant_color["color"])
+        dominant_skin_patch = np.ones((300, 300, 3), dtype=np.uint8) * np.uint8(formatted_rgb)
+        ax[0, 2].imshow(dominant_skin_patch)
+        ax[0, 2].set_title(f"Dominant Skin Tone\n(RGB): {formatted_rgb}")
+        ax[0, 2].axis("off")
+
+        # Color Bar in the middle of the second row
         color_bar = self.plot_color_bar(dominant_colors)
-        ax[2].imshow(color_bar)
-        ax[2].set_title("Color Bar")
-        ax[2].axis("off")
+        ax[1, 1].imshow(color_bar)
+        ax[1, 1].set_title("Color Bar")
+        ax[1, 1].axis("off")
+        ax[1, 0].axis("off")  # Turn off the first plot in the second row
+        ax[1, 2].axis("off")  # Turn off the third plot in the second row
 
         plt.tight_layout()
         plt.show()
 
-        self.pretty_print_data(dominant_colors)
+        #self.pretty_print_data(dominant_colors) uncomment to get all the 5 cluster values
 
-    def get_rgb(self):
+    def get_dominant_skin_tone(self):
+        """Returns the dominant skin tone from the image."""
         skin = self.extract_skin(self.image)
         dominant_colors = self.extract_dominant_color(skin, has_thresholding=True)
         dominant_color = max(dominant_colors, key=lambda x: x["color_percentage"])
-        return dominant_color["color"]
+        formatted_rgb = tuple(round(val, 1) for val in dominant_color["color"])
+        return f"Dominant Skin Tone (RGB): {formatted_rgb}"
+

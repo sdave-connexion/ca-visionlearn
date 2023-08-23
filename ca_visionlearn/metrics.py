@@ -23,23 +23,23 @@ class ImageMetrics:
         """
         self.image_array = image_array
 
-    def _contrast(self):
+    def contrast(self):
         """Computes the contrast of the image."""
         return self.image_array.std()
 
-    def _brightness(self):
+    def brightness(self):
         """Computes the brightness of the image."""
         return np.median(self.image_array)
 
-    def _sharpness(self):
+    def sharpness(self):
         """Computes the sharpness of the image."""
         return cv2.Laplacian(self.image_array, cv2.CV_64F).var()
 
-    def _entropy(self):
+    def entropy(self):
         """Computes the entropy of the image."""
         return shannon_entropy(self.image_array)
 
-    def _color_difference(self):
+    def color_difference(self):
         """
         Computes the color difference of the image.
         
@@ -49,19 +49,19 @@ class ImageMetrics:
         color_differences = [np.linalg.norm(colors[i] - colors[j]) for i in range(len(colors)) for j in range(i + 1, len(colors))]
         return max(color_differences)
 
-    def _color_saturation(self):
+    def color_saturation(self):
         """Computes the color saturation of the image."""
         hsv_image = cv2.cvtColor(self.image_array, cv2.COLOR_RGB2HSV)
         saturation_channel = hsv_image[:, :, 1]
         return np.mean(saturation_channel) / 255.0
 
-    def _edge_density(self):
+    def edge_density(self):
         """Computes the edge density of the image."""
         grayscale = cv2.cvtColor(self.image_array, cv2.COLOR_RGB2GRAY)
         edges = cv2.Canny(grayscale, 100, 200)
         return np.mean(edges) / 255.0
 
-    def _noise_estimate(self):
+    def noise_estimate(self):
         """Computes an estimate of the noise in the image."""
         blurred = cv2.GaussianBlur(self.image_array, (5, 5), 0)
         return np.mean(np.abs(self.image_array - blurred))
@@ -77,14 +77,14 @@ class ImageMetrics:
             dict: Dictionary of computed image metrics.
         """
         all_metrics = {
-            'Contrast': self._contrast,
-            'Brightness': self._brightness,
-            'Sharpness': self._sharpness,
-            'Entropy': self._entropy,
-            'Color Difference': self._color_difference,
-            'Color Saturation': self._color_saturation,
-            'Edge Density': self._edge_density,
-            'Noise Estimate': self._noise_estimate
+            'Contrast': self.contrast,
+            'Brightness': self.brightness,
+            'Sharpness': self.sharpness,
+            'Entropy': self.entropy,
+            'Color Difference': self.color_difference,
+            'Color Saturation': self.color_saturation,
+            'Edge Density': self.edge_density,
+            'Noise Estimate': self.noise_estimate
         }
         
         if metrics_list is None:
